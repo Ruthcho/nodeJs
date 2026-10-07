@@ -1,4 +1,4 @@
-// Data for courses
+// קובץ נתונים עם רשימת הקורסים
 const courses = [
   {
     idCourse: 1,

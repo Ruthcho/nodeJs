@@ -4,3 +4,6 @@ node_modules/
 *.docx
 *.pdf
 חומרים/
+
+# משתני סביבה — לא להעלות ל-Git
+.env

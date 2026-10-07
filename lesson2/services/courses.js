@@ -1,14 +1,17 @@
 // Service for courses
 const courses = require('../data/courses');
 
+// מחזיר את כל הקורסים
 function getCourses() {
   return courses;
 }
 
+// מחזיר קורס אחד לפי מזהה
 function getCourseById(id) {
   return courses.find((course) => course.idCourse === id);
 }
 
+// יוצר קורס חדש ומוסיף אותו למערך
 function createCourse(data) {
   const newCourse = {
     idCourse: courses.length ? Math.max(...courses.map((course) => course.idCourse)) + 1 : 1,
@@ -20,6 +23,7 @@ function createCourse(data) {
   return newCourse;
 }
 
+// מעדכן את פרטי הקורס הקיים
 function updateCourse(id, updates) {
   const course = getCourseById(id);
   if (!course) return null;
@@ -35,6 +39,7 @@ function updateCourse(id, updates) {
   return course;
 }
 
+// מוחק קורס מהמערך
 function deleteCourse(id) {
   const index = courses.findIndex((course) => course.idCourse === id);
   if (index === -1) return null;

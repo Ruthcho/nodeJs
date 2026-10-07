@@ -1,4 +1,4 @@
-// Data for students
+// קובץ נתונים עם רשימת התלמידים
 const students = [
   { id: 1, name: 'ישראל ישראלי' },
   { id: 2, name: 'משה כהן' },

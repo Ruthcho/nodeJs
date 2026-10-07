@@ -7,10 +7,12 @@ const {
   deleteRegistration
 } = require('../services/registration');
 
+// מחזיר את כל הרישומים מהשרת
 function getRegistrationsController(req, res) {
   res.json(getRegistrations());
 }
 
+// מחזיר רישום אחד לפי מזהה
 function getRegistrationByIdController(req, res) {
   const registrationId = parseInt(req.params.id);
   const registration = getRegistrationById(registrationId);
@@ -20,11 +22,13 @@ function getRegistrationByIdController(req, res) {
   res.json(registration);
 }
 
+// יוצר רישום חדש מהנתונים שהתקבלו בבקשה
 function createRegistrationController(req, res) {
   const registration = createRegistration(req.body);
   res.status(201).json(registration);
 }
 
+// מעדכן רישום קיים לפי מזהה
 function updateRegistrationController(req, res) {
   const registrationId = parseInt(req.params.id);
   const updatedRegistration = updateRegistration(registrationId, req.body);
@@ -34,6 +38,7 @@ function updateRegistrationController(req, res) {
   res.json(updatedRegistration);
 }
 
+// מוחק רישום לפי מזהה
 function deleteRegistrationController(req, res) {
   const registrationId = parseInt(req.params.id);
   const deletedRegistration = deleteRegistration(registrationId);

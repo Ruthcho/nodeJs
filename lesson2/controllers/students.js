@@ -7,10 +7,12 @@ const {
   deleteStudent
 } = require('../services/students');
 
+// מחזיר את כל התלמידים מהשרת
 function getStudentsController(req, res) {
   res.json(getStudents());
 }
 
+// מחזיר תלמיד אחד לפי מזהה
 function getStudentByIdController(req, res) {
   const studentId = parseInt(req.params.id);
   const student = getStudentById(studentId);
@@ -20,6 +22,7 @@ function getStudentByIdController(req, res) {
   res.json(student);
 }
 
+// יוצר תלמיד חדש מהנתונים שהתקבלו בבקשה
 function createStudentController(req, res) {
   const { name } = req.body;
   const newStudent = createStudent(name);
@@ -27,6 +30,7 @@ function createStudentController(req, res) {
   res.status(201).json(newStudent);
 }
 
+// מעדכן תלמיד קיים לפי מזהה
 function updateStudentController(req, res) {
   const studentId = parseInt(req.params.id);
   const updatedStudent = updateStudent(studentId, req.body);
@@ -36,6 +40,7 @@ function updateStudentController(req, res) {
   res.json(updatedStudent);
 }
 
+// מוחק תלמיד לפי מזהה
 function deleteStudentController(req, res) {
   const studentId = parseInt(req.params.id);
   const deletedStudent = deleteStudent(studentId);

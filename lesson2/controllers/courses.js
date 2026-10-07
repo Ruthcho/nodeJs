@@ -7,10 +7,12 @@ const {
   deleteCourse
 } = require('../services/courses');
 
+// מחזיר את כל הקורסים מהשרת
 function getCoursesController(req, res) {
   res.json(getCourses());
 }
 
+// מחזיר קורס אחד לפי מזהה
 function getCourseByIdController(req, res) {
   const courseId = parseInt(req.params.id);
   const course = getCourseById(courseId);
@@ -20,11 +22,13 @@ function getCourseByIdController(req, res) {
   res.json(course);
 }
 
+// יוצר קורס חדש מהנתונים שהתקבלו בבקשה
 function createCourseController(req, res) {
   const newCourse = createCourse(req.body);
   res.status(201).json(newCourse);
 }
 
+// מעדכן קורס קיים לפי מזהה
 function updateCourseController(req, res) {
   const courseId = parseInt(req.params.id);
   const updatedCourse = updateCourse(courseId, req.body);
@@ -34,6 +38,7 @@ function updateCourseController(req, res) {
   res.json(updatedCourse);
 }
 
+// מוחק קורס לפי מזהה
 function deleteCourseController(req, res) {
   const courseId = parseInt(req.params.id);
   const deletedCourse = deleteCourse(courseId);
