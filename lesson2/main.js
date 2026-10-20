@@ -56,6 +56,11 @@ app.use('/api/students', studentsRouter);
 // חיבור הראוטים של הרישומים לתחום ה-API
 app.use('/api/enrollments', registrationRouter);
 
+// נתיב גיבוי (404) — מחזיר JSON לכל בקשה שלא נמצא לה נתיב מתאים
+app.use((req, res) => {
+  res.status(404).json({ message: 'הנתיב לא נמצא' });
+});
+
 // הפעלת השרת על הפורט שהוגדר
 app.listen(PORT, () => {
   console.log(`השרת רץ בהצלחה בכתובת: http://localhost:${PORT}`);

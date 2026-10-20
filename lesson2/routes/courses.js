@@ -1,6 +1,7 @@
 // ראוטים לטיפול בקורסים
 const express = require('express');
 const router = express.Router();
+const validateId = require('../middleware/validateId');
 const {
   getCoursesController,
   getCourseByIdController,
@@ -12,16 +13,16 @@ const {
 // קבלת כל הקורסים
 router.get('/', getCoursesController);
 
-// קבלת קורס לפי מזהה
-router.get('/:id', getCourseByIdController);
+// קבלת קורס לפי מזהה (עם אימות מזהה במידלוור)
+router.get('/:id', validateId, getCourseByIdController);
 
 // יצירת קורס חדש
 router.post('/', createCourseController);
 
 // עדכון קורס קיים
-router.put('/:id', updateCourseController);
+router.put('/:id', validateId, updateCourseController);
 
 // מחיקת קורס
-router.delete('/:id', deleteCourseController);
+router.delete('/:id', validateId, deleteCourseController);
 
 module.exports = router;

@@ -1,20 +1,39 @@
-// קובץ נתונים עם רשימת הקורסים
-const courses = [
-  {
-    idCourse: 1,
-    nameCourse: 'math',
-    description: 'Discover the practical power of mathematics through real-world applications, logical reasoning, and essential quantitative skills.'
-  },
-  {
-    idCourse: 2,
-    nameCourse: 'english',
-    description: 'learning busines english, small talk to succeed in the world'
-  },
-  {
-    idCourse: 3,
-    nameCourse: 'js',
-    description: 'to be a perfect frontend developer'
-  }
-];
+// שכבת נתונים לקורסים — קריאה וכתיבה אסינכרונית מקובץ JSON
+const fs = require('fs').promises;
+const path = require('path');
 
-module.exports = courses;
+// נתיב מוחלט לקובץ הנתונים (__dirname = תיקיית data)
+const FILE_PATH = path.join(__dirname, 'courses.json');
+
+// קריאת כל הקורסים מהקובץ
+async function readAll() {
+  try {
+    const content = await fs.readFile(FILE_PATH, 'utf8');
+
+    // קובץ ריק — אין נתונים עדיין
+    if (!content.trim()) return [];
+
+    return JSON.parse(content);
+  } catch (err) {
+    // קובץ לא קיים — הרצה ראשונה, מחזירים מערך ריק
+    if (err.code === 'ENOENT') return [];
+
+    // כל שגיאה אחרת (פגם ב-JSON, הרשאות וכו') — מפילים את הבקשה
+    throw err;
+  }
+}
+
+// שמירת כל הקורסים לקובץ
+async function writeAll(courses) {
+  try {
+    await fs.writeFile(FILE_PATH, JSON.stringify(courses, null, 2), 'utf8');
+    return courses;
+  } catch (err) {
+    throw new Error(`שמירת הקובץ נכשלה: ${err.message}`);
+  }
+}
+
+module.exports = {
+  readAll,
+  writeAll
+};

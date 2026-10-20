@@ -9,43 +9,56 @@ const {
 
 // מחזיר את כל הרישומים מהשרת
 function getRegistrationsController(req, res) {
-  res.json(getRegistrations());
+  getRegistrations()
+    .then((registrations) => res.json(registrations))
+    .catch(() => res.status(500).json({ message: 'שגיאה בקריאת הנתונים' }));
 }
 
 // מחזיר רישום אחד לפי מזהה
 function getRegistrationByIdController(req, res) {
-  const registrationId = parseInt(req.params.id);
-  const registration = getRegistrationById(registrationId);
+  const registrationId = req.parsedId;
 
-  if (!registration) return res.status(404).json({ message: 'הרישום לא נמצא' });
-
-  res.json(registration);
+  getRegistrationById(registrationId)
+    .then((registration) => {
+      if (!registration) return res.status(404).json({ message: 'הרישום לא נמצא' });
+      res.json(registration);
+    })
+    .catch(() => res.status(500).json({ message: 'שגיאה בקריאת הנתונים' }));
 }
 
 // יוצר רישום חדש מהנתונים שהתקבלו בבקשה
 function createRegistrationController(req, res) {
-  const registration = createRegistration(req.body);
-  res.status(201).json(registration);
+  createRegistration(req.body)
+    .then((registration) => {
+      // ה-Service מחזיר error כאשר התלמיד או הקורס לא קיימים
+      if (registration.error) return res.status(400).json({ message: registration.error });
+      res.status(201).json(registration);
+    })
+    .catch(() => res.status(500).json({ message: 'שגיאה בשמירת הנתונים' }));
 }
 
 // מעדכן רישום קיים לפי מזהה
 function updateRegistrationController(req, res) {
-  const registrationId = parseInt(req.params.id);
-  const updatedRegistration = updateRegistration(registrationId, req.body);
+  const registrationId = req.parsedId;
 
-  if (!updatedRegistration) return res.status(404).json({ message: 'הרישום לא נמצא' });
-
-  res.json(updatedRegistration);
+  updateRegistration(registrationId, req.body)
+    .then((updatedRegistration) => {
+      if (!updatedRegistration) return res.status(404).json({ message: 'הרישום לא נמצא' });
+      res.json(updatedRegistration);
+    })
+    .catch(() => res.status(500).json({ message: 'שגיאה בשמירת הנתונים' }));
 }
 
 // מוחק רישום לפי מזהה
 function deleteRegistrationController(req, res) {
-  const registrationId = parseInt(req.params.id);
-  const deletedRegistration = deleteRegistration(registrationId);
+  const registrationId = req.parsedId;
 
-  if (!deletedRegistration) return res.status(404).json({ message: 'הרישום לא נמצא' });
-
-  res.json({ message: 'הרישום בוטל בהצלחה' });
+  deleteRegistration(registrationId)
+    .then((deletedRegistration) => {
+      if (!deletedRegistration) return res.status(404).json({ message: 'הרישום לא נמצא' });
+      res.json({ message: 'הרישום בוטל בהצלחה' });
+    })
+    .catch(() => res.status(500).json({ message: 'שגיאה בשמירת הנתונים' }));
 }
 
 module.exports = {
